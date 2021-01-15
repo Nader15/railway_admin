@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'responsive_widget.dart';
-import '../data/skills.dart';
 import '../config/constants.dart';
 import '../config/styles.dart';
 import '../config/colors.dart';
 
 class About extends StatelessWidget {
-  final String _avatar = 'images/ouahid.png';
   final String _description =
       "an application that enable travellers to make their trip more easy.";
 
@@ -107,10 +105,4 @@ class About extends StatelessWidget {
           ),
         ),
       );
-
-  void _downloadCV() {
-    launch(AppConstants.cv);
-  }
-
-  Widget _buildSkill(Skill skill) => Chip(label: Text(skill.name));
 }

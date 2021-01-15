@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:railway_admin/ui/dashboard.dart';
 
 import 'ui/home.dart';
 import 'config/colors.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
         accentColor: AppColors.yellow,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      // home: Home(),
       home: Home(),
     );
   }

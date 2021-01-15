@@ -5,7 +5,7 @@ import 'package:railway_admin/ui/responsive_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'about.dart';
-import 'contact_us.dart';
+import 'signin.dart';
 import 'footer.dart';
 import 'header.dart';
 import 'icon.dart';
@@ -23,9 +23,7 @@ class _HomeState extends State<Home> {
   final _headerGlobalKey = GlobalKey();
   final _aboutGlobaleKey = GlobalKey();
   final _statisticsGlobaleKey = GlobalKey();
-  final _workingProcessGlobaleKye = GlobalKey();
-  final _recentProjectsGlobaleKey = GlobalKey();
-  final _contactUsGlobaleKey = GlobalKey();
+  final _signinGlobaleKey = GlobalKey();
 
   final _scrollController = ScrollController();
 
@@ -44,12 +42,6 @@ class _HomeState extends State<Home> {
     return ResponsiveWidget(
       desktopScreen: Scaffold(
         body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('images/background.jpg'),
-              fit: BoxFit.cover,
-            ),
-          ),
           child: CustomScrollView(
             controller: _scrollController,
             slivers: [
@@ -61,7 +53,7 @@ class _HomeState extends State<Home> {
                 flexibleSpace: Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('images/drawerBackground.jpg',),
+                      image: AssetImage('images/drawerBackground.jpg'),
                       alignment: Alignment(0,0.6),
                       fit: BoxFit.cover,
                     ),
@@ -83,19 +75,19 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
-                title: Padding(
-                  padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * .15,
-                  ),
-                  child: Text(
-                    "Admin Area",
-                    style: TextStyle(
-                      color: AppColors.yellow,
-                      fontSize: 40,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                ),
+                // title: Padding(
+                //   padding: EdgeInsets.only(
+                //     left: MediaQuery.of(context).size.width * .15,
+                //   ),
+                //   child: Text(
+                //     "Admin Area",
+                //     style: TextStyle(
+                //       color: AppColors.yellow,
+                //       fontSize: 40,
+                //       fontWeight: FontWeight.w900,
+                //     ),
+                //   ),
+                // ),
                 bottom: PreferredSize(
                   preferredSize: Size.fromHeight(500),
                   child: Header(),
@@ -104,7 +96,7 @@ class _HomeState extends State<Home> {
                   Row(
                     children: [
                       MaterialButton(
-                        onPressed: _scrollToContactUs,
+                        onPressed: _scrollToSignin,
                         child: Text(
                           'Sign in',
                           style: TextStyle(
@@ -170,20 +162,6 @@ class _HomeState extends State<Home> {
                   onTap: _scrollToStatistics,
                   title: Text(
                     'Trips',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                ListTile(
-                  onTap: _scrollToWorkingProcess,
-                  title: Text(
-                    'Tickets',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                ListTile(
-                  onTap: _scrollToRecentProjects,
-                  title: Text(
-                    'Users',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -313,7 +291,7 @@ class _HomeState extends State<Home> {
                   Row(
                     children: [
                       MaterialButton(
-                        onPressed: _scrollToContactUs,
+                        onPressed: _scrollToSignin,
                         child: Text(
                           'Sign in',
                           style: TextStyle(
@@ -350,8 +328,8 @@ class _HomeState extends State<Home> {
           child: About(),
         ),
         SliverToBoxAdapter(
-          key: _contactUsGlobaleKey,
-          child: ContactUs(),
+          key: _signinGlobaleKey,
+          child: Signin(),
         ),
         SliverToBoxAdapter(
           child: Footer(),
@@ -399,23 +377,11 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void _scrollToWorkingProcess() {
-    Scrollable.ensureVisible(
-      _workingProcessGlobaleKye.currentContext,
-      duration: const Duration(seconds: 1),
-    );
-  }
 
-  void _scrollToRecentProjects() {
-    Scrollable.ensureVisible(
-      _recentProjectsGlobaleKey.currentContext,
-      duration: const Duration(seconds: 1),
-    );
-  }
 
-  void _scrollToContactUs() {
+  void _scrollToSignin() {
     Scrollable.ensureVisible(
-      _contactUsGlobaleKey.currentContext,
+      _signinGlobaleKey.currentContext,
       duration: const Duration(seconds: 1),
     );
   }

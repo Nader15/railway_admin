@@ -15,6 +15,4 @@ mixin AppConstants {
   static final String facebook =
       'https://www.facebook.com/profile.php?id=100009475398991';
 
-  static final String cv =
-      'https://drive.google.com/file/d/1e3zLTMPb9o-2djufU6NYRiPgNHz4OUoM/view?usp=sharing';
 }

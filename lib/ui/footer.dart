@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'responsive_widget.dart';
-import '../data/projects.dart';
 import '../config/constants.dart';
 import '../config/colors.dart';
 import 'icon.dart';
@@ -196,28 +195,6 @@ class Footer extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildProject(BuildContext context, Project project) => InkWell(
-        onTap: () {
-          launch(project.url);
-        },
-        child: ResponsiveWidget(
-          desktopScreen: Container(
-            color: AppColors.greyLight,
-            padding: const EdgeInsets.all(15),
-            width: MediaQuery.of(context).size.width * .1,
-            height: MediaQuery.of(context).size.width * .1,
-            child: Image.asset(project.image),
-          ),
-          mobileScreen: Container(
-            color: AppColors.greyLight,
-            padding: const EdgeInsets.all(15),
-            width: MediaQuery.of(context).size.width * .2,
-            height: MediaQuery.of(context).size.width * .2,
-            child: Image.asset(project.image),
-          ),
-        ),
-      );
 
   List<Widget> _socialMedia() => [
         InkWell(

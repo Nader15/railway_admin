@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:mailto/mailto.dart';
+import 'package:railway_admin/ui/dashboard.dart';
 import 'package:railway_admin/ui/icon.dart';
 
 import 'responsive_widget.dart';
@@ -10,12 +11,12 @@ import '../config/styles.dart';
 import '../config/colors.dart';
 import '../utils/extensions.dart';
 
-class ContactUs extends StatefulWidget {
+class Signin extends StatefulWidget {
   @override
-  _ContactUsState createState() => _ContactUsState();
+  _SigninState createState() => _SigninState();
 }
 
-class _ContactUsState extends State<ContactUs> {
+class _SigninState extends State<Signin> {
   final _formKey = GlobalKey<FormState>();
 
   final _nameController = TextEditingController(),
@@ -40,7 +41,7 @@ class _ContactUsState extends State<ContactUs> {
             const SizedBox(height: 50),
             Padding(
               padding: const EdgeInsets.only(left: 250,right: 250),
-              child: _buildContactForm(context),
+              child: _buildSigininForm(context),
             )
           ],
         ),
@@ -65,7 +66,7 @@ class _ContactUsState extends State<ContactUs> {
             Column(
               children: [
                 const SizedBox(height: 50),
-                _buildContactForm(context),
+                _buildSigininForm(context),
               ],
             )
           ],
@@ -103,7 +104,7 @@ class _ContactUsState extends State<ContactUs> {
     );
   }
 
-  Widget _buildContactForm(BuildContext context) {
+  Widget _buildSigininForm(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -132,7 +133,10 @@ class _ContactUsState extends State<ContactUs> {
                   color: AppColors.yellow,
                   textColor: Colors.white,
                   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                  onPressed: _sendMail,
+                  onPressed: (){
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Dashboard()));
+                  },
                   child: Text('Login'),
                 ),
               ),

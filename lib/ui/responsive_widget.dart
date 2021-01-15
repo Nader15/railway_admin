@@ -19,7 +19,6 @@ class ResponsiveWidget extends StatelessWidget {
     if (screenWidth > 600) {
       return tabletScreen ?? mobileScreen ?? desktopScreen;
     }
-
     return mobileScreen ?? tabletScreen ?? desktopScreen;
   }
 }
