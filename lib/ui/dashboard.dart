@@ -66,7 +66,7 @@ class _DashboardState extends State<Dashboard>
                   height: 20,
                 ),
                 PreferredSize(
-                  preferredSize: Size(10, 100),
+                  preferredSize : Size(10, 100),
                   child: Container(
                       width: 400,
                       child: Container(

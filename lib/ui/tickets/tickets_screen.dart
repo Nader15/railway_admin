@@ -8,12 +8,6 @@ class Tickets extends StatefulWidget {
 }
 
 class _TicketsState extends State<Tickets> {
-  String valueChoosedPhoneCode;
-  List phoneCodeItems = [
-    "view",
-    "update",
-    "delete",
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +23,7 @@ class _TicketsState extends State<Tickets> {
             child: ListView.builder(
               itemCount: 10,
               itemBuilder: (ctx, index) {
-                return Users();
+                return tickets();
               },
             ),
           ),
@@ -89,7 +83,7 @@ class _TicketsState extends State<Tickets> {
     );
   }
 
-  Widget Users() {
+  Widget tickets() {
     return ListTile(
       contentPadding: EdgeInsets.only(left: 20, top: 20),
       leading: Padding(

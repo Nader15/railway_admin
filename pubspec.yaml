@@ -16,6 +16,9 @@ dependencies:
   url_launcher_web: ^0.1.0
   mailto: ^1.0.0
   flutter_svg: ^0.19.2+1
+  xs_progress_hud: ^1.0.2
+  http: ^0.12.1
+  shared_preferences: ^0.5.4+5
 
 dev_dependencies:
   flutter_test:
