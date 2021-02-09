@@ -8,13 +8,12 @@ class Clients extends StatefulWidget {
 }
 
 class _ClientsState extends State<Clients> {
-  String valueChoosedPhoneCode;
-  List phoneCodeItems = [
+  String value;
+  List items = [
     "view",
     "update",
     "delete",
   ];
-
   @override
   Widget build(BuildContext context) {
     return IntrinsicHeight(
@@ -38,7 +37,7 @@ class _ClientsState extends State<Clients> {
             alignment: Alignment.topLeft,
               width: MediaQuery.of(context).size.width / 2.5,
               padding: EdgeInsets.only(bottom: 20,top: 20),
-              child: Column(
+              child: Column (
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -116,17 +115,17 @@ class _ClientsState extends State<Clients> {
               underline: SizedBox(),
               dropdownColor: whiteColor,
               style: TextStyle(color: blackColor),
-              value: valueChoosedPhoneCode,
+              value: value,
               onChanged: (newValue) {
                 setState(() {
-                  valueChoosedPhoneCode = newValue;
-                  valueChoosedPhoneCode == "delete"
+                  value = newValue;
+                  value == "delete"
                       ? Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Home()))
                       : null;
                 });
               },
-              items: phoneCodeItems.map((valueItem) {
+              items: items.map((valueItem) {
                 return DropdownMenuItem(
                   value: valueItem,
                   child: Text(valueItem),
@@ -134,7 +133,6 @@ class _ClientsState extends State<Clients> {
               }).toList(),
             ),
           )),
-      onTap: () {},
     );
   }
 }

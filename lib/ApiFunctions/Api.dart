@@ -1,0 +1,214 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'package:railway_admin/models/stations.dart';
+import 'package:railway_admin/models/trips.dart';
+import 'package:railway_admin/models/users.dart';
+import 'package:railway_admin/ui/home.dart';
+import 'package:railway_admin/utils/custom_snackBar.dart';
+import 'package:railway_admin/utils/global_vars.dart';
+import 'package:railway_admin/utils/navigator.dart';
+import 'package:xs_progress_hud/xs_progress_hud.dart';
+
+class Api {
+  String baseUrl = 'https://railway-project.herokuapp.com/api/';
+  String stationUrl = 'stations';
+  String tripsUrl = 'trips';
+  String registerUrl = 'token/register';
+
+  BuildContext context;
+
+  Api(@required this.context);
+
+  Future stationApi(GlobalKey<ScaffoldState> _scaffoldKey) async {
+    XsProgressHud.show(context);
+
+    final String completeUrl = baseUrl + stationUrl;
+
+    final response = await http.get(
+      completeUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: "Bearer 73PrtR86ggTtAiHtWcfBXTexdSPtjak0wmQnX7A3"
+      },
+    );
+    Map<String, dynamic> dataContent = json.decode(response.body);
+    XsProgressHud.hide();
+    if (response.statusCode == 200) {
+      return StationsModel.fromJson(dataContent);
+    } else if (response.statusCode == 401) {
+      // clearAllData();
+      navigateAndKeepStack(
+          context,
+          Scaffold(
+            body: Center(
+              child: Container(
+                child: Text("Server error\nPlease LogOut and Login again"),
+              ),
+            ),
+          ));
+    } else {
+      CustomSnackBar(
+          _scaffoldKey, context, json.decode(response.body).toString());
+      return false;
+    }
+  }
+
+  Future tripsApi(GlobalKey<ScaffoldState> _scaffoldKey) async {
+    XsProgressHud.show(context);
+
+    final String completeUrl = baseUrl + tripsUrl;
+
+    final response = await http.get(
+      completeUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: "Bearer 73PrtR86ggTtAiHtWcfBXTexdSPtjak0wmQnX7A3"
+      },
+    );
+    Map<String, dynamic> dataContent = json.decode(response.body);
+    XsProgressHud.hide();
+    if (response.statusCode == 200) {
+      return TripsModel.fromJson(dataContent);
+    } else if (response.statusCode == 401) {
+      // clearAllData();
+      navigateAndKeepStack(
+          context,
+          Scaffold(
+            body: Center(
+              child: Container(
+                child: Text("Server error\nPlease LogOut and Login again"),
+              ),
+            ),
+          ));
+    } else {
+      CustomSnackBar(
+          _scaffoldKey, context, json.decode(response.body).toString());
+      return false;
+    }
+  }
+
+  Future userRegister(
+      GlobalKey<ScaffoldState> _scaffoldKey,
+      String name,
+      String email,
+      String password,
+      String passwordConfirmation,
+      String phone,
+      ) async {
+    XsProgressHud.show(context);
+    final String apiUrl = baseUrl + registerUrl;
+    var data = {
+      "name": name,
+      "email": email,
+      "password": password,
+      "password_confirmation": passwordConfirmation,
+      "device_name": "Anonymous Device",
+      "admin": "0",
+      "phone_number": phone,
+    };
+    var userToJson = json.encode(data);
+    final response = await http.post(
+      apiUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: userToJson,
+    );
+    Map<String, dynamic> dataContent = json.decode(response.body);
+    XsProgressHud.hide();
+
+    print("dataContent1:: ${dataContent}");
+    print("dataContent2:: ${response.body.toString().contains('errors')}");
+
+    if (!(response.body).toString().contains('errors')) {
+      return UsersModel.fromJson(dataContent);
+      print(json.decode(response.body));
+    } else {
+      CustomSnackBar(
+          _scaffoldKey, context, dataContent["errors"]["email"].toString());
+      return false;
+    }
+  }
+
+  Future addTripApi(
+      GlobalKey<ScaffoldState> _scaffoldKey,
+      dynamic base,
+      dynamic destination,
+      dynamic departmentTime,
+      dynamic arrivalTime,
+      ) async {
+    XsProgressHud.show(context);
+    final String apiUrl = baseUrl + tripsUrl;
+    var data = {
+      "base_id": base,
+      "destination_id": destination,
+      "depart_time": departmentTime,
+      "arrival_time": arrivalTime,
+      "train_id": "11",
+    };
+    var userToJson = json.encode(data);
+    final response = await http.post(
+      apiUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: "Bearer 73PrtR86ggTtAiHtWcfBXTexdSPtjak0wmQnX7A3"
+      },
+      body: userToJson,
+    );
+    Map<String, dynamic> dataContent = json.decode(response.body);
+    XsProgressHud.hide();
+
+    print("dataContent1:: ${dataContent}");
+    print("dataContent2:: ${response.body.toString()}");
+
+    if (!(response.body).toString().contains('errors')) {
+      CustomSnackBar(_scaffoldKey, context, dataContent["success"].toString());
+      Future.delayed(Duration(seconds: 5), () {
+        navigateAndClearStack(context, Home());
+      });
+      return TripsModel.fromJson(dataContent);
+    } else {
+      CustomSnackBar(_scaffoldKey, context, dataContent["errors"].toString());
+      return false;
+    }
+  }
+
+  Future deleteTripApi(GlobalKey<ScaffoldState> _scaffoldKey, int Id) async {
+    XsProgressHud.show(context);
+
+    print(baseUrl + tripsUrl + "/$Id");
+    final String apiUrl = baseUrl + tripsUrl + "/$Id";
+    final response = await http.delete(
+      apiUrl,
+      headers: {
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: "Bearer 73PrtR86ggTtAiHtWcfBXTexdSPtjak0wmQnX7A3"
+      },
+    );
+    // Map<String, dynamic> dataContent = json.decode(response.body);
+    // print("dataContent:: ${dataContent}");
+    XsProgressHud.hide();
+    if (response.statusCode == 200) {
+      print("body :" + json.decode(response.body).toString());
+      Navigator.pop(context);
+      Future.delayed(Duration(seconds: 3), () {
+        navigateAndClearStack(context, Home());
+      });
+      // CustomSnackBar(_scaffoldKey, context,
+      //     json.decode(response.body)["success"].toString());
+      return true;
+    } else {
+      print("body :" + json.decode(response.body).toString());
+      CustomSnackBar(
+          _scaffoldKey, context, json.decode(response.body).toString());
+      return false;
+    }
+
+  }
+}
