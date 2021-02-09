@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:railway_admin/ui/clients/clients_screen.dart';
 import 'package:railway_admin/ui/responsive_widget.dart';
@@ -49,7 +50,7 @@ class _DashboardState extends State<Dashboard>
   @override
   Widget build(BuildContext context) => ResponsiveWidget(
         desktopScreen: Scaffold(
-          backgroundColor: primaryAppColor,
+          backgroundColor: CupertinoColors.inactiveGray,
           body: Padding(
             padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
             child: Column(
