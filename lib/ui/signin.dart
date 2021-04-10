@@ -2,9 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:mailto/mailto.dart';
+import 'package:railway_admin/ApiFunctions/shared.dart';
 import 'package:railway_admin/ui/dashboard.dart';
 import 'package:railway_admin/ui/icon.dart';
 
+import '../ApiFunctions/Api.dart';
+import '../models/users.dart';
+import '../utils/global_vars.dart';
+import '../utils/navigator.dart';
+import 'dashboard.dart';
 import 'responsive_widget.dart';
 import '../config/constants.dart';
 import '../config/styles.dart';
@@ -17,11 +23,17 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
+
+  UsersModel usersModel;
+
+  bool _autoValidate = false;
+
   final _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> scafoldState = new GlobalKey<ScaffoldState>();
 
   final _nameController = TextEditingController(),
       _emailController = TextEditingController(),
-      _contentController = TextEditingController();
+      _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -114,6 +126,8 @@ class _SigninState extends State<Signin> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
+                controller: _emailController,
+                validator: validateEmail,
                 decoration: InputDecoration(
                   hintText: 'Email',
                   border: OutlineInputBorder(),
@@ -121,6 +135,8 @@ class _SigninState extends State<Signin> {
               ),
               const SizedBox(height: 20),
               TextFormField(
+                controller: _passwordController,
+                validator: validatePassword,
                 decoration: InputDecoration(
                   hintText: 'Password',
                   border: OutlineInputBorder(),
@@ -134,9 +150,50 @@ class _SigninState extends State<Signin> {
                   textColor: Colors.white,
                   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
                   onPressed: (){
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Dashboard()));
-                  },
+                    _validateInputs();
+                    if (_formKey.currentState.validate()) {
+                      Api(context)
+                          .userLogin(scafoldState, _emailController.text,
+                          _passwordController.text)
+                          .then((value) {
+                        if (value is UsersModel) {
+                          usersModel = value;
+                          Future.delayed(Duration(seconds: 1), () {
+                              setUserTocken(
+                                auth_token: usersModel
+                                    .token.plainTextToken
+                                    .split("|")[1],
+                                userId: usersModel.user.id,
+                                userName: usersModel.user.name,
+                                userEmail: usersModel.user.email,
+                                userPhone: usersModel.user.phoneNumber,
+                                userJoinedTime: usersModel.token.accessToken.createdAt,
+                              )
+                                  .then((value) {
+                                UserTocken =
+                                "Bearer ${usersModel.token.plainTextToken.split("|")[1]}";
+                                userName = usersModel.user.name;
+                                userEmail = usersModel.user.email;
+                                userPhone = usersModel.user.phoneNumber;
+                                userJoinedTime = usersModel.token.accessToken.createdAt;
+                                userId = usersModel.user.id;
+                                navigateAndKeepStack(
+                                    context, Dashboard());
+                                // navigateAndKeepStack(context,Competitions());
+                              });
+
+//talent_id: 46
+
+                          });
+                        } else {}
+                      });
+                    }
+                  }
+                  // {
+                  //   Navigator.push(context,
+                  //       MaterialPageRoute(builder: (context) => Dashboard()));
+                  // },
+                    ,
                   child: Text('Login'),
                 ),
               ),
@@ -154,7 +211,7 @@ class _SigninState extends State<Signin> {
     final mailto = Mailto(
       to: [AppConstants.mail],
       subject: _nameController.text.trim(),
-      body: _contentController.text.trim(),
+      body: _passwordController.text.trim(),
     );
 
     final server = await HttpServer.bind(InternetAddress.loopbackIPv4, 3000);
@@ -169,11 +226,42 @@ class _SigninState extends State<Signin> {
     }
   }
 
+  void _validateInputs() {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+    } else {
+      setState(() {
+        _autoValidate = true;
+      });
+    }
+  }
+
+  String validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (value.length == 0)
+      return 'You must enter your Email';
+    else if (!regex.hasMatch(value))
+      return 'Enter Valid Email';
+    else
+      return null;
+  }
+
+  String validatePassword(String value) {
+    if (value.length == 0)
+      return 'You must enter your Password';
+    else if (value.length < 5)
+      return 'Enter your Correct Password';
+    else
+      return null;
+  }
+
   @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
-    _contentController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 }

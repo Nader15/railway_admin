@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:railway_admin/models/tickes_model.dart';
 import 'package:railway_admin/ui/home.dart';
 import 'package:railway_admin/utils/colors_file.dart';
+
+import '../../ApiFunctions/Api.dart';
 
 class Tickets extends StatefulWidget {
   @override
@@ -8,6 +11,36 @@ class Tickets extends StatefulWidget {
 }
 
 class _TicketsState extends State<Tickets> {
+
+  TicketsModel ticketsModel;
+  List<Success> ticketsList = List();
+
+
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration(milliseconds: 0), () {
+      gettingData();
+    });
+//    showHud();
+  }
+
+  gettingData() {
+    setState(() {
+      Api(context).userTicketsApi(_scaffoldKey).then((value) {
+        ticketsModel = value;
+        ticketsModel.success.forEach((element) {
+          setState(() {
+            ticketsList.add(element);
+          });
+        });
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +54,9 @@ class _TicketsState extends State<Tickets> {
             height: 470,
             width: MediaQuery.of(context).size.width / 2.5,
             child: ListView.builder(
-              itemCount: 10,
+              itemCount: ticketsList.length,
               itemBuilder: (ctx, index) {
-                return tickets();
+                return tickets(index);
               },
             ),
           ),
@@ -83,7 +116,7 @@ class _TicketsState extends State<Tickets> {
     );
   }
 
-  Widget tickets() {
+  Widget tickets(int index) {
     return ListTile(
       contentPadding: EdgeInsets.only(left: 20, top: 20),
       leading: Padding(
@@ -93,8 +126,8 @@ class _TicketsState extends State<Tickets> {
           height: 30,
         ),
       ),
-      title: Text("Mohamed Ahmed"),
-      subtitle: Text("Alexandria - Aswan"),
+      title: Text("${ticketsList[index].userData.name}"),
+      subtitle: Text("${ticketsList[index].tripData.trip.baseStation} - ${ticketsList[index].tripData.trip.arrivalTime}"),
       trailing: Text("10113"),
       onTap: () {},
     );

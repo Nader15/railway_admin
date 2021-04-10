@@ -6,6 +6,8 @@ import 'package:railway_admin/ui/tickets/tickets_screen.dart';
 import 'package:railway_admin/ui/trips/trips_screen.dart';
 import 'package:railway_admin/utils/colors_file.dart';
 
+import '../utils/colors_file.dart';
+
 class Dashboard extends StatefulWidget {
   @override
   _DashboardState createState() => _DashboardState();
@@ -50,7 +52,7 @@ class _DashboardState extends State<Dashboard>
   @override
   Widget build(BuildContext context) => ResponsiveWidget(
         desktopScreen: Scaffold(
-          backgroundColor: CupertinoColors.inactiveGray,
+          backgroundColor: primaryAppColor,
           body: Padding(
             padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
             child: Column(

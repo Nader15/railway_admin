@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:railway_admin/models/allUsers_model.dart';
 import 'package:railway_admin/models/stations.dart';
+import 'package:railway_admin/models/tickes_model.dart';
 import 'package:railway_admin/models/trips.dart';
 import 'package:railway_admin/models/users.dart';
 import 'package:railway_admin/ui/home.dart';
@@ -18,6 +19,8 @@ class Api {
   String allUsersUrl = 'users';
   String tripsUrl = 'trips';
   String registerUrl = 'token/register';
+  String loginUrl = 'token/login';
+  String bookTicketUrl = 'tickets';
 
   BuildContext context;
 
@@ -178,6 +181,33 @@ class Api {
       return false;
     }
   }
+  Future userLogin(GlobalKey<ScaffoldState> _scaffoldKey, String email,
+      String password) async {
+    XsProgressHud.show(context);
+    final String apiUrl = baseUrl + loginUrl;
+    var data = {
+      "email": email,
+      "password": password,
+      "device_name": "device_name",
+      "admin": "1",
+    };
+    var userToJson = json.encode(data);
+    final response = await http.post(
+      apiUrl,
+      headers: {"Content-Type": "application/json"},
+      body: userToJson,
+    );
+    Map<String, dynamic> dataContent = json.decode(response.body);
+    XsProgressHud.hide();
+    if (response.statusCode == 200) {
+      print(dataContent.toString());
+      return UsersModel.fromJson(dataContent);
+    } else {
+      CustomSnackBar(_scaffoldKey, context,
+          json.decode(response.body)['errors'].toString());
+      return false;
+    }
+  }
 
   Future addTripApi(
       GlobalKey<ScaffoldState> _scaffoldKey,
@@ -213,9 +243,9 @@ class Api {
 
     if (!(response.body).toString().contains('errors')) {
       CustomSnackBar(_scaffoldKey, context, dataContent["success"].toString());
-      Future.delayed(Duration(seconds: 5), () {
-        navigateAndClearStack(context, Home());
-      });
+      // Future.delayed(Duration(seconds: 5), () {
+      //   navigateAndClearStack(context, Home());
+      // });
       return TripsModel.fromJson(dataContent);
     } else {
       CustomSnackBar(_scaffoldKey, context, dataContent["errors"].toString());
@@ -287,5 +317,42 @@ class Api {
       return false;
     }
 
+  }
+
+  Future userTicketsApi(GlobalKey<ScaffoldState> _scaffoldKey) async {
+    XsProgressHud.show(context);
+
+    final String completeUrl = baseUrl + bookTicketUrl;
+
+    final response = await http.get(
+      completeUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: UserTocken
+      },
+    );
+    Map<String, dynamic> dataContent = json.decode(response.body);
+    XsProgressHud.hide();
+    if (response.statusCode == 200) {
+      return TicketsModel.fromJson(dataContent);
+    } else if (response.statusCode == 401) {
+      CustomSnackBar(
+          _scaffoldKey, context, json.decode(response.body).toString());
+      // clearAllData();
+      // navigateAndKeepStack(
+      //     context,
+      //     Scaffold(
+      //       body: Center(
+      //         child: Container(
+      //           child: Text("Server error\nPlease LogOut and Login again"),
+      //         ),
+      //       ),
+      //     ));
+    } else {
+      CustomSnackBar(
+          _scaffoldKey, context, json.decode(response.body).toString());
+      return false;
+    }
   }
 }
