@@ -69,7 +69,7 @@ class _ClientsState extends State<Clients> {
                   )
                 : Container(
                     // color: Colors.red,
-                    height: 470,
+                    height: MediaQuery.of(context).size.height/1.2,
                     width: MediaQuery.of(context).size.width / 2.5,
                     child: ListView.builder(
                       itemCount: usersList.length,

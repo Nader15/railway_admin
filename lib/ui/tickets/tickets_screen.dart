@@ -11,11 +11,8 @@ class Tickets extends StatefulWidget {
 }
 
 class _TicketsState extends State<Tickets> {
-
   TicketsModel ticketsModel;
   List<Success> ticketsList = List();
-
-
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -49,22 +46,34 @@ class _TicketsState extends State<Tickets> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            // color: Colors.red,
-            height: 470,
-            width: MediaQuery.of(context).size.width / 2.5,
-            child: ListView.builder(
-              itemCount: ticketsList.length,
-              itemBuilder: (ctx, index) {
-                return tickets(index);
-              },
-            ),
+          ticketsList.length == 0
+              ? Center(
+                  child: Container(
+                    padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width / 4),
+                    child: Text("The System Has No Ticket. "),
+                  ),
+                )
+              : Container(
+                  // color: Colors.red,
+                  height: 470,
+                  width: MediaQuery.of(context).size.width / 2.5,
+                  child: ListView.builder(
+                    itemCount: ticketsList.length,
+                    itemBuilder: (ctx, index) {
+                      return tickets(index);
+                    },
+                  ),
+                ),
+          VerticalDivider(
+            thickness: 5,
+            width: 10,
+            color: primaryAppColor,
           ),
-          VerticalDivider(thickness: 5,width: 10,color: primaryAppColor,),
           Container(
               alignment: Alignment.topLeft,
               width: MediaQuery.of(context).size.width / 2.5,
-              padding: EdgeInsets.only(bottom: 20,top: 20),
+              padding: EdgeInsets.only(bottom: 20, top: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -76,11 +85,19 @@ class _TicketsState extends State<Tickets> {
                         "Tickets Information",
                         style: TextStyle(fontSize: 20),
                       ),
-                      SizedBox(height: 30,),
+                      SizedBox(
+                        height: 30,
+                      ),
                       ListTile(
                         contentPadding: EdgeInsets.zero,
-                        leading: Text("Count :",style: TextStyle(fontSize: 18),),
-                        title: Text("17",style: TextStyle(fontSize: 18),),
+                        leading: Text(
+                          "Count :",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        title: Text(
+                          "${ticketsList.length}",
+                          style: TextStyle(fontSize: 18),
+                        ),
                         onTap: () {},
                       ),
                     ],
@@ -90,10 +107,16 @@ class _TicketsState extends State<Tickets> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text("Add Ticket",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                          SizedBox(width: 20,),
+                          Text(
+                            "Add Ticket",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
                           GestureDetector(
-                            onTap: (){},
+                            onTap: () {},
                             child: Container(
                               margin: EdgeInsets.only(right: 20),
                               width: 50,
@@ -102,7 +125,11 @@ class _TicketsState extends State<Tickets> {
                                 shape: BoxShape.circle,
                                 color: blackColor,
                               ),
-                              child: Icon(Icons.add,color: whiteColor,size: 30,),
+                              child: Icon(
+                                Icons.add,
+                                color: whiteColor,
+                                size: 30,
+                              ),
                             ),
                           ),
                         ],
@@ -127,7 +154,8 @@ class _TicketsState extends State<Tickets> {
         ),
       ),
       title: Text("${ticketsList[index].userData.name}"),
-      subtitle: Text("${ticketsList[index].tripData.trip.baseStation} - ${ticketsList[index].tripData.trip.arrivalTime}"),
+      subtitle: Text(
+          "${ticketsList[index].tripData.trip.baseStation} - ${ticketsList[index].tripData.trip.arrivalTime}"),
       trailing: Text("10113"),
       onTap: () {},
     );

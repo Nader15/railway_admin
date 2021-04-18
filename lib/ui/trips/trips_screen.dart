@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:railway_admin/ApiFunctions/Api.dart';
-import 'package:railway_admin/models/stations.dart'as stationModelImport;
+import 'package:railway_admin/models/stations.dart' as stationModelImport;
 import 'package:railway_admin/models/trip.dart';
 import 'package:railway_admin/models/trips.dart';
 import 'package:railway_admin/ui/home.dart';
@@ -10,7 +10,6 @@ import 'package:railway_admin/utils/custom_button.dart';
 import 'package:railway_admin/utils/global_vars.dart';
 
 class Trips extends StatefulWidget {
-
   final Trip trip;
 
   const Trips({Key key, this.trip}) : super(key: key);
@@ -38,6 +37,7 @@ class _TripsState extends State<Trips> {
     });
 //    showHud();
   }
+
   gettingData2() {
     setState(() {
       Api(context).stationApi(_scaffoldKey).then((value) {
@@ -82,7 +82,7 @@ class _TripsState extends State<Trips> {
       setState(() {
         selectedDate = picked;
         departmentDateController.text =
-        selectedDate.toIso8601String().split("T")[0];
+            selectedDate.toIso8601String().split("T")[0];
         trip_departmentTime = departmentDateController.text;
       });
   }
@@ -97,25 +97,26 @@ class _TripsState extends State<Trips> {
       setState(() {
         selectedDate = picked;
         arrivalDateController.text =
-        selectedDate.toIso8601String().split("T")[0];
+            selectedDate.toIso8601String().split("T")[0];
         trip_departmentTime = arrivalDateController.text;
       });
   }
 
   Future<void> _selectTimeDepart(BuildContext context) async {
     final TimeOfDay picked =
-    await showTimePicker(context: context, initialTime: selectedTime);
+        await showTimePicker(context: context, initialTime: selectedTime);
     if (picked != null && picked != selectedTime)
       setState(() {
         selectedTime = picked;
-        departmentTimeController.text = selectedTime.format(context).split(" ")[0];
+        departmentTimeController.text =
+            selectedTime.format(context).split(" ")[0];
         trip_arrivalTime = arrivalDateController.text;
       });
   }
 
   Future<void> _selectTimeArrival(BuildContext context) async {
     final TimeOfDay picked =
-    await showTimePicker(context: context, initialTime: selectedTime);
+        await showTimePicker(context: context, initialTime: selectedTime);
     if (picked != null && picked != selectedTime)
       setState(() {
         selectedTime = picked;
@@ -131,8 +132,14 @@ class _TripsState extends State<Trips> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            alignment: Alignment.center ,
+          tripsList.length == 0
+              ? Center(
+            child: Container(
+              child: Text("The System Has No Trips. "),
+            ),
+          )
+              :Container(
+            alignment: Alignment.center,
             // color: Colors.red,
             height: 470,
             width: MediaQuery.of(context).size.width / 2.5,
@@ -145,11 +152,15 @@ class _TripsState extends State<Trips> {
               },
             ),
           ),
-          VerticalDivider(thickness: 5,width: 10,color: primaryAppColor,),
+          VerticalDivider(
+            thickness: 5,
+            width: 10,
+            color: primaryAppColor,
+          ),
           Container(
               alignment: Alignment.topLeft,
               width: MediaQuery.of(context).size.width / 2,
-              padding: EdgeInsets.only(bottom: 20,top: 20),
+              padding: EdgeInsets.only(bottom: 20, top: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -161,16 +172,23 @@ class _TripsState extends State<Trips> {
                         "Trips Information",
                         style: TextStyle(fontSize: 20),
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       ListTile(
                         contentPadding: EdgeInsets.zero,
-                        leading: Text("Count :",style: TextStyle(fontSize: 18),),
-                        title: Text("${tripsList.length}",style: TextStyle(fontSize: 18),),
-                        onTap: () {},
+                        leading: Text(
+                          "Count :",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        title: Text(
+                          "${tripsList.length}",
+                          style: TextStyle(fontSize: 18),
+                        ),
                       ),
                       Container(
                         padding: EdgeInsets.only(left: 10, right: 10),
-                        width: MediaQuery.of(context).size.width/3,
+                        width: MediaQuery.of(context).size.width / 3,
                         decoration: BoxDecoration(
                             color: Colors.grey.withOpacity(.1),
                             borderRadius: BorderRadius.circular(5)),
@@ -178,10 +196,11 @@ class _TripsState extends State<Trips> {
                           hint: Text(
                             "Choose Base Station",
                             style: TextStyle(
-                              // color: Color(0xffb8c3cb).withOpacity(0.5),
-                            ),
+                                // color: Color(0xffb8c3cb).withOpacity(0.5),
+                                ),
                           ),
-                          icon: Icon(Icons.keyboard_arrow_down, color: Color(0xffb8c3cb)),
+                          icon: Icon(Icons.keyboard_arrow_down,
+                              color: Color(0xffb8c3cb)),
                           isExpanded: true,
                           underline: SizedBox(),
                           dropdownColor: whiteColor,
@@ -204,7 +223,7 @@ class _TripsState extends State<Trips> {
                       SizedBox(height: 20),
                       Container(
                         padding: EdgeInsets.only(left: 10, right: 10),
-                        width: MediaQuery.of(context).size.width/3,
+                        width: MediaQuery.of(context).size.width / 3,
                         decoration: BoxDecoration(
                             color: Colors.grey.withOpacity(.1),
                             borderRadius: BorderRadius.circular(5)),
@@ -212,10 +231,11 @@ class _TripsState extends State<Trips> {
                           hint: Text(
                             "Choose Destination Station",
                             style: TextStyle(
-                              // color: Color(0xffb8c3cb).withOpacity(0.5),
-                            ),
+                                // color: Color(0xffb8c3cb).withOpacity(0.5),
+                                ),
                           ),
-                          icon: Icon(Icons.keyboard_arrow_down, color: Color(0xffb8c3cb)),
+                          icon: Icon(Icons.keyboard_arrow_down,
+                              color: Color(0xffb8c3cb)),
                           isExpanded: true,
                           underline: SizedBox(),
                           dropdownColor: whiteColor,
@@ -239,7 +259,7 @@ class _TripsState extends State<Trips> {
                         height: 20,
                       ),
                       Container(
-                        width: MediaQuery.of(context).size.width/3,
+                        width: MediaQuery.of(context).size.width / 3,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -259,8 +279,8 @@ class _TripsState extends State<Trips> {
                                     hintText: "Department Date",
                                     suffixIcon: Icon(Icons.keyboard_arrow_down,
                                         color: Color(0xffb8c3cb)),
-                                    hintStyle:
-                                    TextStyle(color: blackColor, fontSize: 13)),
+                                    hintStyle: TextStyle(
+                                        color: blackColor, fontSize: 13)),
                               ),
                             ),
                             SizedBox(
@@ -270,7 +290,7 @@ class _TripsState extends State<Trips> {
                               width: MediaQuery.of(context).size.width / 6.5,
                               child: TextFormField(
                                 controller: departmentTimeController,
-                                onTap: ()=>_selectTimeDepart(context),
+                                onTap: () => _selectTimeDepart(context),
                                 decoration: InputDecoration(
                                     fillColor: Colors.grey.withOpacity(.1),
                                     filled: true,
@@ -282,8 +302,8 @@ class _TripsState extends State<Trips> {
                                     hintText: "Department time",
                                     suffixIcon: Icon(Icons.keyboard_arrow_down,
                                         color: Color(0xffb8c3cb)),
-                                    hintStyle:
-                                    TextStyle(color: blackColor, fontSize: 13)),
+                                    hintStyle: TextStyle(
+                                        color: blackColor, fontSize: 13)),
                               ),
                             ),
                           ],
@@ -293,7 +313,7 @@ class _TripsState extends State<Trips> {
                         height: 20,
                       ),
                       Container(
-                        width: MediaQuery.of(context).size.width/3,
+                        width: MediaQuery.of(context).size.width / 3,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -313,8 +333,8 @@ class _TripsState extends State<Trips> {
                                     hintText: "Arrival Date",
                                     suffixIcon: Icon(Icons.keyboard_arrow_down,
                                         color: Color(0xffb8c3cb)),
-                                    hintStyle:
-                                    TextStyle(color: blackColor, fontSize: 13)),
+                                    hintStyle: TextStyle(
+                                        color: blackColor, fontSize: 13)),
                               ),
                             ),
                             SizedBox(
@@ -324,7 +344,7 @@ class _TripsState extends State<Trips> {
                               width: MediaQuery.of(context).size.width / 6.5,
                               child: TextFormField(
                                 controller: arrivalTimeController,
-                                onTap: ()=>_selectTimeArrival(context),
+                                onTap: () => _selectTimeArrival(context),
                                 decoration: InputDecoration(
                                     fillColor: Colors.grey.withOpacity(.1),
                                     filled: true,
@@ -336,8 +356,8 @@ class _TripsState extends State<Trips> {
                                     hintText: "Arrival time",
                                     suffixIcon: Icon(Icons.keyboard_arrow_down,
                                         color: Color(0xffb8c3cb)),
-                                    hintStyle:
-                                    TextStyle(color: blackColor, fontSize: 13)),
+                                    hintStyle: TextStyle(
+                                        color: blackColor, fontSize: 13)),
                               ),
                             ),
                           ],
@@ -369,18 +389,27 @@ class _TripsState extends State<Trips> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text("Add Trip",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                          SizedBox(width: 20,),
+                          Text(
+                            "Add Trip",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
                           GestureDetector(
-                            onTap: (){
-                              Api(context)
-                                      .addTripApi(
-                                    _scaffoldKey,
-                                    trip_base_id,
-                                    trip_destination_id,
-                                    departmentDateController.text+" "+departmentTimeController.text,
-                                    arrivalDateController.text+" "+arrivalTimeController.text,
-                                  );
+                            onTap: () {
+                              Api(context).addTripApi(
+                                _scaffoldKey,
+                                trip_base_id,
+                                trip_destination_id,
+                                departmentDateController.text +
+                                    " " +
+                                    departmentTimeController.text,
+                                arrivalDateController.text +
+                                    " " +
+                                    arrivalTimeController.text,
+                              );
                             },
                             child: Container(
                               margin: EdgeInsets.only(right: 20),
@@ -390,7 +419,11 @@ class _TripsState extends State<Trips> {
                                 shape: BoxShape.circle,
                                 color: blackColor,
                               ),
-                              child: Icon(Icons.add,color: whiteColor,size: 30,),
+                              child: Icon(
+                                Icons.add,
+                                color: whiteColor,
+                                size: 30,
+                              ),
                             ),
                           ),
                         ],
@@ -404,6 +437,7 @@ class _TripsState extends State<Trips> {
     );
   }
 }
+
 class TripsBody extends StatelessWidget {
   final Success success;
 
@@ -422,8 +456,7 @@ class TripsBody extends StatelessWidget {
                 backgroundColor: Color(0xff1D1D1D),
                 title: Text(
                   "Delete Trip ?",
-                  style:
-                  TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.white),
                 ),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
@@ -465,7 +498,7 @@ class TripsBody extends StatelessWidget {
             elevation: 10,
             color: primaryAppColor,
             shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -474,7 +507,10 @@ class TripsBody extends StatelessWidget {
                 children: [
                   Text(
                     success.baseStation.name,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: whiteColor),
                   ),
                   Center(
                     child: Padding(
@@ -484,11 +520,16 @@ class TripsBody extends StatelessWidget {
                         children: [
                           Column(
                             children: [
-                              Text("Start Time"),
+                              Text(
+                                "Start Time",
+                                style: TextStyle(color: whiteColor),
+                              ),
                               Text(
                                 success.departTime,
                                 style: TextStyle(
-                                    fontSize: 10, fontWeight: FontWeight.bold),
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: whiteColor),
                               ),
                             ],
                           ),
@@ -499,16 +540,20 @@ class TripsBody extends StatelessWidget {
                               padding: const EdgeInsets.all(8.0),
                               child: Image.asset(
                                 'images/train.png',
+                                color: whiteColor,
                               ),
                             ),
                           ),
                           Column(
                             children: [
-                              Text("Arrival Time"),
+                              Text("Arrival Time",
+                                  style: TextStyle(color: whiteColor)),
                               Text(
                                 success.arrivalTime,
                                 style: TextStyle(
-                                    fontSize: 10, fontWeight: FontWeight.bold),
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: whiteColor),
                               ),
                             ],
                           ),
@@ -518,7 +563,10 @@ class TripsBody extends StatelessWidget {
                   ),
                   Text(
                     success.destinationStation.name,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: whiteColor),
                   ),
                 ],
               ),

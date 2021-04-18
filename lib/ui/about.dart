@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:railway_admin/utils/colors_file.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'responsive_widget.dart';
@@ -25,10 +26,11 @@ class About extends StatelessWidget {
                 child: Container(
                   color: AppColors.yellow,
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(40.0),
                     child: Image.asset(
                       'images/train.png',
                       fit: BoxFit.cover,
+                      color: whiteColor,
                       height: 100,
                       width: 100,
                     ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:railway_admin/ui/responsive_widget.dart';
+import 'package:railway_admin/utils/colors_file.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../config/constants.dart';
@@ -20,12 +21,19 @@ class Header extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                _name,
-                style: TextStyle(
-                  color: AppColors.yellow,
-                  fontSize: 40,
-                  fontWeight: FontWeight.w900,
+              Container(
+                padding: EdgeInsets.only(left: 20,right: 20),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: whiteColor
+                ),
+                child: Text(
+                  _name,
+                  style: TextStyle(
+                    color: AppColors.yellow,
+                    fontSize: 40,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
               ),
               const SizedBox(height: 30),
