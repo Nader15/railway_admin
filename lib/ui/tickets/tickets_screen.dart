@@ -50,7 +50,7 @@ class _TicketsState extends State<Tickets> {
               ? Center(
                   child: Container(
                     padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width / 4),
+                        left: MediaQuery.of(context).size.width / 6),
                     child: Text("The System Has No Ticket. "),
                   ),
                 )
@@ -155,7 +155,7 @@ class _TicketsState extends State<Tickets> {
       ),
       title: Text("${ticketsList[index].userData.name}"),
       subtitle: Text(
-          "${ticketsList[index].tripData.trip.baseStation} - ${ticketsList[index].tripData.trip.arrivalTime}"),
+          "${ticketsList[index].tripData.trip.baseStation.name} - ${ticketsList[index].tripData.trip.destinationStation.name}"),
       trailing: Text("10113"),
       onTap: () {},
     );
