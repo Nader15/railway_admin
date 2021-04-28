@@ -98,7 +98,6 @@ class _TicketsState extends State<Tickets> {
                           "${ticketsList.length}",
                           style: TextStyle(fontSize: 18),
                         ),
-                        onTap: () {},
                       ),
                     ],
                   ),

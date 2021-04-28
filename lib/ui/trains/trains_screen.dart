@@ -121,7 +121,6 @@ class _TrainsState extends State<Trains> {
                             trainsList.length.toString(),
                             style: TextStyle(fontSize: 18),
                           ),
-                          onTap: () {},
                         ),
 
                       ],

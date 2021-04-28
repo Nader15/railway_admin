@@ -202,7 +202,6 @@ class _ClientsState extends State<Clients> {
                             usersList.length.toString(),
                             style: TextStyle(fontSize: 18),
                           ),
-                          onTap: () {},
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 3,

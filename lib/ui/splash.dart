@@ -54,7 +54,7 @@ class _openState extends State<SplashScreen> {
               Image.asset(
                 'app_images/train.png',
                 color: blueAppColor,
-                width: 300,
+                width: 100,
               ),
               SizedBox(height: 20),
               Text("Railway",style: TextStyle(color:blueAppColor,fontSize: 40 ),),
