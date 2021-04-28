@@ -52,7 +52,7 @@ class _openState extends State<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'images/train.png',
+                'app_images/train.png',
                 color: blueAppColor,
                 width: 300,
               ),

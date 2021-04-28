@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:railway_admin/models/allUsers_model.dart';
 import 'package:railway_admin/models/stations.dart';
 import 'package:railway_admin/models/tickes_model.dart';
+import 'package:railway_admin/models/trains_model.dart';
 import 'package:railway_admin/models/trips.dart';
 import 'package:railway_admin/models/users.dart';
 import 'package:railway_admin/ui/home.dart';
@@ -21,6 +22,7 @@ class Api {
   String registerUrl = 'token/register';
   String loginUrl = 'token/login';
   String bookTicketUrl = 'tickets';
+  String trainsUrl = 'trains';
 
   BuildContext context;
 
@@ -343,6 +345,43 @@ class Api {
     XsProgressHud.hide();
     if (response.statusCode == 200) {
       return TicketsModel.fromJson(dataContent);
+    } else if (response.statusCode == 401) {
+      CustomSnackBar(
+          _scaffoldKey, context, json.decode(response.body).toString());
+      // clearAllData();
+      // navigateAndKeepStack(
+      //     context,
+      //     Scaffold(
+      //       body: Center(
+      //         child: Container(
+      //           child: Text("Server error\nPlease LogOut and Login again"),
+      //         ),
+      //       ),
+      //     ));
+    } else {
+      CustomSnackBar(
+          _scaffoldKey, context, json.decode(response.body).toString());
+      return false;
+    }
+  }
+
+  Future getTrainsApi(GlobalKey<ScaffoldState> _scaffoldKey) async {
+    XsProgressHud.show(context);
+
+    final String completeUrl = baseUrl + trainsUrl;
+
+    final response = await http.get(
+      completeUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        HttpHeaders.authorizationHeader: UserTocken
+      },
+    );
+    Map<String, dynamic> dataContent = json.decode(response.body);
+    XsProgressHud.hide();
+    if (response.statusCode == 200) {
+      return TrainsModel.fromJson(dataContent);
     } else if (response.statusCode == 401) {
       CustomSnackBar(
           _scaffoldKey, context, json.decode(response.body).toString());

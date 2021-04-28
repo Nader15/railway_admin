@@ -75,45 +75,14 @@ class _TripsState extends State<Trips> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
 
-  Future<void> _selectDateDepart(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(1950, 8),
-        lastDate: DateTime(2101));
-    if (picked != null)
-      setState(() {
-        selectedDate = picked;
-        departmentDateController.text =
-            selectedDate.toIso8601String().split("T")[0];
-        trip_departmentTime = departmentDateController.text;
-      });
-  }
-
-  Future<void> _selectDateArrival(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(1950, 8),
-        lastDate: DateTime(2101));
-    if (picked != null)
-      setState(() {
-        selectedDate = picked;
-        arrivalDateController.text =
-            selectedDate.toIso8601String().split("T")[0];
-        trip_departmentTime = arrivalDateController.text;
-      });
-  }
-
   Future<void> _selectTimeDepart(BuildContext context) async {
     final TimeOfDay picked =
         await showTimePicker(context: context, initialTime: selectedTime);
-    if (picked != null && picked != selectedTime)
+    if (picked != null)
       setState(() {
         selectedTime = picked;
         departmentTimeController.text =
             selectedTime.format(context).split(" ")[0];
-        trip_arrivalTime = arrivalDateController.text;
       });
   }
 
@@ -124,334 +93,338 @@ class _TripsState extends State<Trips> {
       setState(() {
         selectedTime = picked;
         arrivalTimeController.text = selectedTime.format(context).split(" ")[0];
-        trip_arrivalTime = arrivalDateController.text;
       });
   }
 
   @override
   Widget build(BuildContext context) {
     return IntrinsicHeight(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          tripsList.length == 0
-              ? Center(
-            child: Container(
-              child: Text("The System Has No Trips. "),
+      child: Scaffold(
+        key: _scaffoldKey,
+        body: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            tripsList.length == 0
+                ? Center(
+              child: Container(
+                child: Text("The System Has No Trips. "),
+              ),
+            )
+                :Container(
+              alignment: Alignment.center,
+              // color: Colors.red,
+              // height: 470,
+              width: MediaQuery.of(context).size.width / 2.5,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: tripsList.length,
+                itemBuilder: (ctx, index) {
+                  return TripsBody(
+                    success: tripsList[index],
+                  );
+                },
+              ),
             ),
-          )
-              :Container(
-            alignment: Alignment.center,
-            // color: Colors.red,
-            // height: 470,
-            width: MediaQuery.of(context).size.width / 2.5,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: tripsList.length,
-              itemBuilder: (ctx, index) {
-                return TripsBody(
-                  success: tripsList[index],
-                );
-              },
+            VerticalDivider(
+              thickness: 5,
+              width: 10,
+              color: primaryAppColor,
             ),
-          ),
-          VerticalDivider(
-            thickness: 5,
-            width: 10,
-            color: primaryAppColor,
-          ),
-          Container(
-              alignment: Alignment.topLeft,
-              width: MediaQuery.of(context).size.width / 2,
-              padding: EdgeInsets.only(bottom: 20, top: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
+            SingleChildScrollView(
+              child: Container(
+                  alignment: Alignment.topLeft,
+                  width: MediaQuery.of(context).size.width / 2,
+                  padding: EdgeInsets.only(bottom: 20, top: 20),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Trips Information",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        leading: Text(
-                          "Count :",
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        title: Text(
-                          "${tripsList.length}",
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        width: MediaQuery.of(context).size.width / 3,
-                        decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(.1),
-                            borderRadius: BorderRadius.circular(5)),
-                        child: DropdownButton(
-                          hint: Text(
-                            "Choose Base Station",
-                            style: TextStyle(
-                                // color: Color(0xffb8c3cb).withOpacity(0.5),
-                                ),
-                          ),
-                          icon: Icon(Icons.keyboard_arrow_down,
-                              color: Color(0xffb8c3cb)),
-                          isExpanded: true,
-                          underline: SizedBox(),
-                          dropdownColor: whiteColor,
-                          style: TextStyle(color: blackColor),
-                          value: trip_base_id,
-                          onChanged: (newValue) {
-                            setState(() {
-                              trip_base_id = newValue;
-                              print(trip_base_id);
-                            });
-                          },
-                          items: stationsList.map((valueItem) {
-                            return DropdownMenuItem(
-                              value: valueItem.id,
-                              child: Text(valueItem.name),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Container(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        width: MediaQuery.of(context).size.width / 3,
-                        decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(.1),
-                            borderRadius: BorderRadius.circular(5)),
-                        child: DropdownButton(
-                          hint: Text(
-                            "Choose Destination Station",
-                            style: TextStyle(
-                                // color: Color(0xffb8c3cb).withOpacity(0.5),
-                                ),
-                          ),
-                          icon: Icon(Icons.keyboard_arrow_down,
-                              color: Color(0xffb8c3cb)),
-                          isExpanded: true,
-                          underline: SizedBox(),
-                          dropdownColor: whiteColor,
-                          style: TextStyle(color: blackColor),
-                          value: trip_destination_id,
-                          onChanged: (newValue) {
-                            setState(() {
-                              trip_destination_id = newValue;
-                              print(trip_destination_id);
-                            });
-                          },
-                          items: stationsList.map((valueItem) {
-                            return DropdownMenuItem(
-                              value: valueItem.id,
-                              child: Text(valueItem.name),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width / 6.5,
-                          child: TextFormField(
-                            controller: departmentTimeController,
-                            onTap: () => _selectTimeDepart(context),
-                            decoration: InputDecoration(
-                                fillColor: Colors.grey.withOpacity(.1),
-                                filled: true,
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.circular(5)),
-                                contentPadding: new EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 10),
-                                hintText: "Department time",
-                                suffixIcon: Icon(Icons.keyboard_arrow_down,
-                                    color: Color(0xffb8c3cb)),
-                                hintStyle: TextStyle(
-                                    color: blackColor, fontSize: 13)),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width / 6.5,
-                          child: TextFormField(
-                            controller: arrivalTimeController,
-                            onTap: () => _selectTimeArrival(context),
-                            decoration: InputDecoration(
-                                fillColor: Colors.grey.withOpacity(.1),
-                                filled: true,
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.circular(5)),
-                                contentPadding: new EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 10),
-                                hintText: "Arrival time",
-                                suffixIcon: Icon(Icons.keyboard_arrow_down,
-                                    color: Color(0xffb8c3cb)),
-                                hintStyle: TextStyle(
-                                    color: blackColor, fontSize: 13)),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width / 6.5,
-                          child: TextFormField(
-                            controller: classAController,
-                            decoration: InputDecoration(
-                                fillColor: Colors.grey.withOpacity(.1),
-                                filled: true,
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.circular(5)),
-                                contentPadding: new EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 10),
-                                hintText: "Class A price",
-
-                                hintStyle: TextStyle(
-                                    color: blackColor, fontSize: 13)),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width / 6.5,
-                          child: TextFormField(
-                            controller: classBController,
-                            decoration: InputDecoration(
-                                fillColor: Colors.grey.withOpacity(.1),
-                                filled: true,
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.circular(5)),
-                                contentPadding: new EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 10),
-                                hintText: "Class B price",
-
-                                hintStyle: TextStyle(
-                                    color: blackColor, fontSize: 13)),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width / 6.5,
-                          child: TextFormField(
-                            controller: classCController,
-                            decoration: InputDecoration(
-                                fillColor: Colors.grey.withOpacity(.1),
-                                filled: true,
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.circular(5)),
-                                contentPadding: new EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 10),
-                                hintText: "Class C price",
-
-                                hintStyle: TextStyle(
-                                    color: blackColor, fontSize: 13)),
-                          ),
-                        ),
-                      ),
-                      // SizedBox(
-                      //   height: 50,
-                      // ),
-                      // CustomButton(
-                      //   bttnName: 'Save',
-                      //   bttnHeight: 55,
-                      //   bttnWidth: 368,
-                      //   bttnNameSize: 20,
-                      //   onPress: () {
-                      //     Api(context)
-                      //         .addTripApi(
-                      //       _scaffoldKey,
-                      //       trip_base_id,
-                      //       trip_destination_id,
-                      //       departmentDateController.text+" "+departmentTimeController.text,
-                      //       arrivalDateController.text+" "+arrivalTimeController.text,
-                      //     );
-                      //   },
-                      // ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Add Trip",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
+                            "Trips Information",
+                            style: TextStyle(fontSize: 20),
                           ),
                           SizedBox(
-                            width: 20,
+                            height: 10,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Api(context).addTripApi(
-                                _scaffoldKey,
-                                departmentTimeController.text,
-                                arrivalTimeController.text,
-                                trip_base_id,
-                                trip_destination_id,
-                                classAController.text,
-                                classBController.text,
-                                classCController.text,
-                              );
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(right: 20),
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: blackColor,
+                          ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: Text(
+                              "Count :",
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            title: Text(
+                              "${tripsList.length}",
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            width: MediaQuery.of(context).size.width / 3,
+                            decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(.1),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: DropdownButton(
+                              hint: Text(
+                                "Choose Base Station",
+                                style: TextStyle(
+                                    // color: Color(0xffb8c3cb).withOpacity(0.5),
+                                    ),
                               ),
-                              child: Icon(
-                                Icons.add,
-                                color: whiteColor,
-                                size: 30,
+                              icon: Icon(Icons.keyboard_arrow_down,
+                                  color: Color(0xffb8c3cb)),
+                              isExpanded: true,
+                              underline: SizedBox(),
+                              dropdownColor: whiteColor,
+                              style: TextStyle(color: blackColor),
+                              value: trip_base_id,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  trip_base_id = newValue;
+                                  print(trip_base_id);
+                                });
+                              },
+                              items: stationsList.map((valueItem) {
+                                return DropdownMenuItem(
+                                  value: valueItem.id,
+                                  child: Text(valueItem.name),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Container(
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            width: MediaQuery.of(context).size.width / 3,
+                            decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(.1),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: DropdownButton(
+                              hint: Text(
+                                "Choose Destination Station",
+                                style: TextStyle(
+                                    // color: Color(0xffb8c3cb).withOpacity(0.5),
+                                    ),
+                              ),
+                              icon: Icon(Icons.keyboard_arrow_down,
+                                  color: Color(0xffb8c3cb)),
+                              isExpanded: true,
+                              underline: SizedBox(),
+                              dropdownColor: whiteColor,
+                              style: TextStyle(color: blackColor),
+                              value: trip_destination_id,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  trip_destination_id = newValue;
+                                  print(trip_destination_id);
+                                });
+                              },
+                              items: stationsList.map((valueItem) {
+                                return DropdownMenuItem(
+                                  value: valueItem.id,
+                                  child: Text(valueItem.name),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width / 6.5,
+                              child: TextFormField(
+                                controller: departmentTimeController,
+                                onTap: () => _selectTimeDepart(context),
+                                decoration: InputDecoration(
+                                    fillColor: Colors.grey.withOpacity(.1),
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius: BorderRadius.circular(5)),
+                                    contentPadding: new EdgeInsets.symmetric(
+                                        vertical: 0, horizontal: 10),
+                                    hintText: "Department time",
+                                    suffixIcon: Icon(Icons.keyboard_arrow_down,
+                                        color: Color(0xffb8c3cb)),
+                                    hintStyle: TextStyle(
+                                        color: blackColor, fontSize: 13)),
                               ),
                             ),
                           ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width / 6.5,
+                              child: TextFormField(
+                                controller: arrivalTimeController,
+                                onTap: () => _selectTimeArrival(context),
+                                decoration: InputDecoration(
+                                    fillColor: Colors.grey.withOpacity(.1),
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius: BorderRadius.circular(5)),
+                                    contentPadding: new EdgeInsets.symmetric(
+                                        vertical: 0, horizontal: 10),
+                                    hintText: "Arrival time",
+                                    suffixIcon: Icon(Icons.keyboard_arrow_down,
+                                        color: Color(0xffb8c3cb)),
+                                    hintStyle: TextStyle(
+                                        color: blackColor, fontSize: 13)),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width / 6.5,
+                              child: TextFormField(
+                                controller: classAController,
+                                decoration: InputDecoration(
+                                    fillColor: Colors.grey.withOpacity(.1),
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius: BorderRadius.circular(5)),
+                                    contentPadding: new EdgeInsets.symmetric(
+                                        vertical: 0, horizontal: 10),
+                                    hintText: "Class A price",
+
+                                    hintStyle: TextStyle(
+                                        color: blackColor, fontSize: 13)),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width / 6.5,
+                              child: TextFormField(
+                                controller: classBController,
+                                decoration: InputDecoration(
+                                    fillColor: Colors.grey.withOpacity(.1),
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius: BorderRadius.circular(5)),
+                                    contentPadding: new EdgeInsets.symmetric(
+                                        vertical: 0, horizontal: 10),
+                                    hintText: "Class B price",
+
+                                    hintStyle: TextStyle(
+                                        color: blackColor, fontSize: 13)),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width / 6.5,
+                              child: TextFormField(
+                                controller: classCController,
+                                decoration: InputDecoration(
+                                    fillColor: Colors.grey.withOpacity(.1),
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                        borderRadius: BorderRadius.circular(5)),
+                                    contentPadding: new EdgeInsets.symmetric(
+                                        vertical: 0, horizontal: 10),
+                                    hintText: "Class C price",
+
+                                    hintStyle: TextStyle(
+                                        color: blackColor, fontSize: 13)),
+                              ),
+                            ),
+                          ),
+                          // SizedBox(
+                          //   height: 50,
+                          // ),
+                          // CustomButton(
+                          //   bttnName: 'Save',
+                          //   bttnHeight: 55,
+                          //   bttnWidth: 368,
+                          //   bttnNameSize: 20,
+                          //   onPress: () {
+                          //     Api(context)
+                          //         .addTripApi(
+                          //       _scaffoldKey,
+                          //       trip_base_id,
+                          //       trip_destination_id,
+                          //       departmentDateController.text+" "+departmentTimeController.text,
+                          //       arrivalDateController.text+" "+arrivalTimeController.text,
+                          //     );
+                          //   },
+                          // ),
                         ],
                       ),
+                      Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                "Add Trip",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Api(context).addTripApi(
+                                    _scaffoldKey,
+                                    departmentTimeController.text,
+                                    arrivalTimeController.text,
+                                    trip_base_id,
+                                    trip_destination_id,
+                                    classAController.text,
+                                    classBController.text,
+                                    classCController.text,
+                                  );
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(right: 20),
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: blackColor,
+                                  ),
+                                  child: Icon(
+                                    Icons.add,
+                                    color: whiteColor,
+                                    size: 30,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
                     ],
-                  )
-                ],
-              )),
-        ],
+                  )),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -558,7 +531,7 @@ class TripsBody extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Image.asset(
-                                'images/train.png',
+                                'app_images/train.png',
                                 color: whiteColor,
                               ),
                             ),

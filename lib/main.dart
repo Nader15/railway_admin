@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:railway_admin/trains/trains_map.dart';
 import 'package:railway_admin/ui/dashboard.dart';
 import 'package:railway_admin/ui/splash.dart';
 

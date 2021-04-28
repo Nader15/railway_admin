@@ -53,7 +53,7 @@ class _HomeState extends State<Home> {
                 flexibleSpace: Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('images/drawerBackground.jpg'),
+                      image: AssetImage('app_images/drawerBackground.jpg'),
                       alignment: Alignment(0,0.6),
                       fit: BoxFit.cover,
                     ),
@@ -110,7 +110,7 @@ class _HomeState extends State<Home> {
                           width: 50,
                           height: 50,
                           color: AppColors.greyLight,
-                          child: Image.asset('images/defaultUser.png'),
+                          child: Image.asset('app_images/defaultUser.png'),
                         ),
                       ),
                     ],
@@ -142,7 +142,7 @@ class _HomeState extends State<Home> {
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Image.asset(
-                        'images/train.png',
+                        'app_images/train.png',
                         fit: BoxFit.cover,
                         height: 20,
                         width: 20,
@@ -175,7 +175,7 @@ class _HomeState extends State<Home> {
                         launch(AppConstants.github);
                       },
                       child: AppIcon(
-                        'icons/github.png',
+                        'app_icons/github.png',
                         color: AppColors.black,
                       ),
                     ),
@@ -185,7 +185,7 @@ class _HomeState extends State<Home> {
                         launch(AppConstants.linkedin);
                       },
                       child: AppIcon(
-                        'icons/linkedin.png',
+                        'app_icons/linkedin.png',
                         color: AppColors.black,
                       ),
                     ),
@@ -195,7 +195,7 @@ class _HomeState extends State<Home> {
                         launch(AppConstants.twitter);
                       },
                       child: AppIcon(
-                        'icons/twitter.png',
+                        'app_icons/twitter.png',
                         color: AppColors.black,
                       ),
                     ),
@@ -205,7 +205,7 @@ class _HomeState extends State<Home> {
                         launch(AppConstants.facebook);
                       },
                       child: AppIcon(
-                        'icons/facebook.png',
+                        'app_icons/facebook.png',
                         color: AppColors.black,
                       ),
                     ),
@@ -219,7 +219,7 @@ class _HomeState extends State<Home> {
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('images/background.jpg'),
+              image: AssetImage('app_images/background.jpg'),
               fit: BoxFit.cover,
             ),
           ),
@@ -260,7 +260,7 @@ class _HomeState extends State<Home> {
                 flexibleSpace: Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('images/drawerBackground.jpg'),
+                      image: AssetImage('app_images/drawerBackground.jpg'),
                       alignment: Alignment(0,1.0),
                       fit: BoxFit.cover,
                     ),
@@ -305,7 +305,7 @@ class _HomeState extends State<Home> {
                           width: 40,
                           height: 40,
                           color: AppColors.greyLight,
-                          child: Image.asset('images/defaultUser.png'),
+                          child: Image.asset('app_images/defaultUser.png'),
                         ),
                       ),
                     ],
@@ -349,7 +349,7 @@ class _HomeState extends State<Home> {
                 ? _scrollToHeader
                 : null, // make sure user cannot click when button hidden
             mini: true,
-            child: AppIcon('icons/double-up-arrow.png', size: 20),
+            child: AppIcon('app_icons/double-up-arrow.png', size: 20),
           ),
         );
       },
