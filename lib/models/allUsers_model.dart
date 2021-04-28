@@ -26,6 +26,7 @@ class Success {
   String name;
   String email;
   Null emailVerifiedAt;
+  int wallet;
   String createdAt;
   String updatedAt;
   String phoneNumber;
@@ -35,6 +36,7 @@ class Success {
         this.name,
         this.email,
         this.emailVerifiedAt,
+        this.wallet,
         this.createdAt,
         this.updatedAt,
         this.phoneNumber});
@@ -44,6 +46,7 @@ class Success {
     name = json['name'];
     email = json['email'];
     emailVerifiedAt = json['email_verified_at'];
+    wallet = json['wallet'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     phoneNumber = json['phone_number'];
@@ -55,6 +58,7 @@ class Success {
     data['name'] = this.name;
     data['email'] = this.email;
     data['email_verified_at'] = this.emailVerifiedAt;
+    data['wallet'] = this.wallet;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['phone_number'] = this.phoneNumber;

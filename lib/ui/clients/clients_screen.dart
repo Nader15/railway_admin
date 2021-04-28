@@ -4,6 +4,9 @@ import 'package:railway_admin/models/allUsers_model.dart';
 import 'package:railway_admin/ui/home.dart';
 import 'package:railway_admin/utils/colors_file.dart';
 
+import '../../utils/colors_file.dart';
+import '../../utils/colors_file.dart';
+
 class Clients extends StatefulWidget {
   @override
   _ClientsState createState() => _ClientsState();
@@ -52,6 +55,8 @@ class _ClientsState extends State<Clients> {
     "delete",
   ];
 
+  var walletController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return IntrinsicHeight(
@@ -69,7 +74,7 @@ class _ClientsState extends State<Clients> {
                   )
                 : Container(
                     // color: Colors.red,
-                    height: MediaQuery.of(context).size.height/1.2,
+                    height: MediaQuery.of(context).size.height / 1.2,
                     width: MediaQuery.of(context).size.width / 2.5,
                     child: ListView.builder(
                       itemCount: usersList.length,
@@ -89,6 +94,130 @@ class _ClientsState extends State<Clients> {
                                         borderRadius:
                                             BorderRadius.circular(20)),
                                     actions: [
+                                      FlatButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    backgroundColor:
+                                                        Color(0xff1D1D1D),
+                                                    title: Text(
+                                                      "${usersList[index].name}",
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20)),
+                                                    actions: [
+                                                      FlatButton(
+                                                          onPressed: () {
+                                                            Api(context)
+                                                                .AddToWalletApi(
+                                                                    _scaffoldKey,"${usersList[index].id}","${walletController.text}"
+                                                                    );
+                                                          },
+                                                          child: Text(
+                                                            "Confirm",
+                                                          )),
+                                                      FlatButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Text(
+                                                            "cancel",
+                                                          ))
+                                                    ],
+                                                    content: Container(
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.3,
+                                                      child: Center(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            Text(
+                                                              "Deposit",
+                                                              style: TextStyle(
+                                                                  color:
+                                                                      whiteColor),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            TextFormField(
+                                                              controller:
+                                                                  walletController,
+                                                              style: TextStyle(
+                                                                  color:
+                                                                      whiteColor),
+                                                              cursorColor:
+                                                                  primaryAppColor,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                border: OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                5),
+                                                                    borderSide:
+                                                                        BorderSide
+                                                                            .none),
+                                                                fillColor:
+                                                                    primaryAppColor
+                                                                        .withOpacity(
+                                                                            0.1),
+                                                                filled: true,
+                                                                focusedBorder: OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                5),
+                                                                    borderSide:
+                                                                        BorderSide(
+                                                                            color:
+                                                                                blueAppColor)),
+                                                                hintText:
+                                                                    "add here",
+                                                                hintStyle:
+                                                                    TextStyle(
+                                                                        color:
+                                                                            greyPrimaryColor),
+                                                                contentPadding:
+                                                                    EdgeInsets.symmetric(
+                                                                        horizontal:
+                                                                            10),
+                                                                // enabledBorder: InputBorder.none,
+                                                                // border: OutlineInputBorder(
+                                                                //     borderSide:
+                                                                //         BorderSide(color: primaryAppColor, width: .8)),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                });
+                                          },
+                                          child: Text(
+                                            "Add Wallet",
+                                          )),
                                       FlatButton(
                                           onPressed: () {
                                             Api(context).deleteUserApi(
@@ -143,6 +272,14 @@ class _ClientsState extends State<Clients> {
                                               height: 10,
                                             ),
                                             Text(
+                                              "Wallet : ${usersList[index].wallet} L.E",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text(
                                               "Created at : ${usersList[index].createdAt.split(".")[0].split("T")[0]}  ${usersList[index].createdAt.split(".")[0].split("T")[1]}",
                                               style: TextStyle(
                                                   color: Colors.white),
@@ -160,7 +297,10 @@ class _ClientsState extends State<Clients> {
                             backgroundColor: grey,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Icon(Icons.person,color: whiteColor,),
+                              child: Icon(
+                                Icons.person,
+                                color: whiteColor,
+                              ),
                             ),
                           ),
                           title: Text(usersList[index].name),

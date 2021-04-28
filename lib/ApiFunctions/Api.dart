@@ -23,6 +23,7 @@ class Api {
   String loginUrl = 'token/login';
   String bookTicketUrl = 'tickets';
   String trainsUrl = 'trains';
+  String walletUrl = 'wallet';
 
   BuildContext context;
 
@@ -401,4 +402,35 @@ class Api {
       return false;
     }
   }
+
+  Future AddToWalletApi(GlobalKey<ScaffoldState> _scaffoldKey,String id , String wallet) async {
+    XsProgressHud.show(context);
+    final String apiUrl = baseUrl + walletUrl;
+    var data = {
+      "user_id": id,
+      "wallet": wallet,
+    };
+    var userToJson = json.encode(data);
+    final response = await http.post(
+      apiUrl,
+      headers: {
+        HttpHeaders.authorizationHeader: UserTocken
+      },
+      body: data,
+    );
+    Map<String, dynamic> dataContent = json.decode(response.body);
+    XsProgressHud.hide();
+    if (response.statusCode == 200) {
+      Navigator.pop(context);
+      CustomSnackBar(_scaffoldKey, context,
+          json.decode(response.body));
+      print(dataContent.toString());
+      return true;
+    } else {
+      CustomSnackBar(_scaffoldKey, context,
+          json.decode(response.body));
+      return false;
+    }
+  }
+
 }
