@@ -19,6 +19,13 @@ dependencies:
   xs_progress_hud: ^1.0.2
   http: ^0.12.1
   shared_preferences: ^0.5.4+5
+#  permission:
+#  geolocator: ^5.3.1
+#  geocoding: ^1.0.5
+#  flutter_polyline_points: ^0.2.4
+  google_maps_flutter_web:
+  google_maps:
+  google_maps_flutter:
 
 dev_dependencies:
   flutter_test:

@@ -61,7 +61,7 @@ class _DashboardState extends State<Dashboard>
                 Text(
                   "Railway System",
                   style: TextStyle(
-                      color: whiteColor ,
+                      color: whiteColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 20),
                 ),
@@ -69,7 +69,7 @@ class _DashboardState extends State<Dashboard>
                   height: 20,
                 ),
                 PreferredSize(
-                  preferredSize : Size(10, 100),
+                  preferredSize: Size(10, 100),
                   child: Container(
                       width: MediaQuery.of(context).size.width,
                       child: Container(
@@ -92,15 +92,14 @@ class _DashboardState extends State<Dashboard>
                       )),
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height/1.2,
+                  height: MediaQuery.of(context).size.height / 1.2,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                    color: whiteColor,
+                      color: whiteColor,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(10),
                         bottomRight: Radius.circular(10),
-                      )
-                  ),
+                      )),
                   child: TabBarView(
                     controller: _tabController,
                     children: Containers,

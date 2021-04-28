@@ -68,6 +68,9 @@ class _TripsState extends State<Trips> {
   var departmentTimeController = TextEditingController();
   var arrivalDateController = TextEditingController();
   var arrivalTimeController = TextEditingController();
+  var classAController = TextEditingController();
+  var classBController = TextEditingController();
+  var classCController = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
@@ -141,9 +144,10 @@ class _TripsState extends State<Trips> {
               :Container(
             alignment: Alignment.center,
             // color: Colors.red,
-            height: 470,
+            // height: 470,
             width: MediaQuery.of(context).size.width / 2.5,
             child: ListView.builder(
+              shrinkWrap: true,
               itemCount: tripsList.length,
               itemBuilder: (ctx, index) {
                 return TripsBody(
@@ -260,53 +264,25 @@ class _TripsState extends State<Trips> {
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width / 3,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 6.5,
-                              child: TextFormField(
-                                controller: departmentDateController,
-                                onTap: () => _selectDateDepart(context),
-                                decoration: InputDecoration(
-                                    fillColor: Colors.grey.withOpacity(.1),
-                                    filled: true,
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                        borderRadius: BorderRadius.circular(5)),
-                                    contentPadding: new EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 10),
-                                    hintText: "Department Date",
-                                    suffixIcon: Icon(Icons.keyboard_arrow_down,
-                                        color: Color(0xffb8c3cb)),
-                                    hintStyle: TextStyle(
-                                        color: blackColor, fontSize: 13)),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 6.5,
-                              child: TextFormField(
-                                controller: departmentTimeController,
-                                onTap: () => _selectTimeDepart(context),
-                                decoration: InputDecoration(
-                                    fillColor: Colors.grey.withOpacity(.1),
-                                    filled: true,
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                        borderRadius: BorderRadius.circular(5)),
-                                    contentPadding: new EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 10),
-                                    hintText: "Department time",
-                                    suffixIcon: Icon(Icons.keyboard_arrow_down,
-                                        color: Color(0xffb8c3cb)),
-                                    hintStyle: TextStyle(
-                                        color: blackColor, fontSize: 13)),
-                              ),
-                            ),
-                          ],
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width / 6.5,
+                          child: TextFormField(
+                            controller: departmentTimeController,
+                            onTap: () => _selectTimeDepart(context),
+                            decoration: InputDecoration(
+                                fillColor: Colors.grey.withOpacity(.1),
+                                filled: true,
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(5)),
+                                contentPadding: new EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 10),
+                                hintText: "Department time",
+                                suffixIcon: Icon(Icons.keyboard_arrow_down,
+                                    color: Color(0xffb8c3cb)),
+                                hintStyle: TextStyle(
+                                    color: blackColor, fontSize: 13)),
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -314,53 +290,97 @@ class _TripsState extends State<Trips> {
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width / 3,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 6.5,
-                              child: TextFormField(
-                                controller: arrivalDateController,
-                                onTap: () => _selectDateArrival(context),
-                                decoration: InputDecoration(
-                                    fillColor: Colors.grey.withOpacity(.1),
-                                    filled: true,
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                        borderRadius: BorderRadius.circular(5)),
-                                    contentPadding: new EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 10),
-                                    hintText: "Arrival Date",
-                                    suffixIcon: Icon(Icons.keyboard_arrow_down,
-                                        color: Color(0xffb8c3cb)),
-                                    hintStyle: TextStyle(
-                                        color: blackColor, fontSize: 13)),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 6.5,
-                              child: TextFormField(
-                                controller: arrivalTimeController,
-                                onTap: () => _selectTimeArrival(context),
-                                decoration: InputDecoration(
-                                    fillColor: Colors.grey.withOpacity(.1),
-                                    filled: true,
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                        borderRadius: BorderRadius.circular(5)),
-                                    contentPadding: new EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 10),
-                                    hintText: "Arrival time",
-                                    suffixIcon: Icon(Icons.keyboard_arrow_down,
-                                        color: Color(0xffb8c3cb)),
-                                    hintStyle: TextStyle(
-                                        color: blackColor, fontSize: 13)),
-                              ),
-                            ),
-                          ],
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width / 6.5,
+                          child: TextFormField(
+                            controller: arrivalTimeController,
+                            onTap: () => _selectTimeArrival(context),
+                            decoration: InputDecoration(
+                                fillColor: Colors.grey.withOpacity(.1),
+                                filled: true,
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(5)),
+                                contentPadding: new EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 10),
+                                hintText: "Arrival time",
+                                suffixIcon: Icon(Icons.keyboard_arrow_down,
+                                    color: Color(0xffb8c3cb)),
+                                hintStyle: TextStyle(
+                                    color: blackColor, fontSize: 13)),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width / 6.5,
+                          child: TextFormField(
+                            controller: classAController,
+                            decoration: InputDecoration(
+                                fillColor: Colors.grey.withOpacity(.1),
+                                filled: true,
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(5)),
+                                contentPadding: new EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 10),
+                                hintText: "Class A price",
+
+                                hintStyle: TextStyle(
+                                    color: blackColor, fontSize: 13)),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width / 6.5,
+                          child: TextFormField(
+                            controller: classBController,
+                            decoration: InputDecoration(
+                                fillColor: Colors.grey.withOpacity(.1),
+                                filled: true,
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(5)),
+                                contentPadding: new EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 10),
+                                hintText: "Class B price",
+
+                                hintStyle: TextStyle(
+                                    color: blackColor, fontSize: 13)),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width / 6.5,
+                          child: TextFormField(
+                            controller: classCController,
+                            decoration: InputDecoration(
+                                fillColor: Colors.grey.withOpacity(.1),
+                                filled: true,
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(5)),
+                                contentPadding: new EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 10),
+                                hintText: "Class C price",
+
+                                hintStyle: TextStyle(
+                                    color: blackColor, fontSize: 13)),
+                          ),
                         ),
                       ),
                       // SizedBox(
@@ -401,14 +421,13 @@ class _TripsState extends State<Trips> {
                             onTap: () {
                               Api(context).addTripApi(
                                 _scaffoldKey,
+                                departmentTimeController.text,
+                                arrivalTimeController.text,
                                 trip_base_id,
                                 trip_destination_id,
-                                departmentDateController.text +
-                                    " " +
-                                    departmentTimeController.text,
-                                arrivalDateController.text +
-                                    " " +
-                                    arrivalTimeController.text,
+                                classAController.text,
+                                classBController.text,
+                                classCController.text,
                               );
                             },
                             child: Container(

@@ -211,19 +211,26 @@ class Api {
 
   Future addTripApi(
       GlobalKey<ScaffoldState> _scaffoldKey,
-      dynamic base,
-      dynamic destination,
       dynamic departmentTime,
       dynamic arrivalTime,
+      dynamic base,
+      dynamic destination,
+      dynamic priceA,
+      dynamic priceB,
+      dynamic priceC,
       ) async {
     XsProgressHud.show(context);
     final String apiUrl = baseUrl + tripsUrl;
     var data = {
-      "base_id": base,
-      "destination_id": destination,
       "depart_time": departmentTime,
       "arrival_time": arrivalTime,
+      "base_id": base,
+      "destination_id": destination,
       "train_id": "11",
+      "priceA": priceA,
+      "priceB": priceA,
+      "priceC": priceA,
+
     };
     var userToJson = json.encode(data);
     final response = await http.post(
