@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:railway_admin/utils/colors_file.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../utils/colors_file.dart';
 import 'responsive_widget.dart';
 import '../config/constants.dart';
 import '../config/styles.dart';
@@ -28,7 +29,7 @@ class About extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(40.0),
                     child: Image.asset(
-                      'images/train.png',
+                      'app_images/train.png',
                       fit: BoxFit.cover,
                       color: whiteColor,
                       height: 100,
@@ -73,10 +74,11 @@ class About extends StatelessWidget {
                 child: Container(
                   color: AppColors.yellow,
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(40.0),
                     child: Image.asset(
-                      'images/train.png',
+                      'app_images/train.png',
                       fit: BoxFit.cover,
+                      color: whiteColor,
                       height: 100,
                       width: 100,
                     ),

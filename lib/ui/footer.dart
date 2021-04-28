@@ -201,28 +201,28 @@ class Footer extends StatelessWidget {
           onTap: () async {
             launch(AppConstants.github);
           },
-          child: AppIcon('icons/github.png'),
+          child: AppIcon('app_icons/github.png'),
         ),
         const SizedBox(width: 20),
         InkWell(
           onTap: () {
             launch(AppConstants.linkedin);
           },
-          child: AppIcon('icons/linkedin.png'),
+          child: AppIcon('app_icons/linkedin.png'),
         ),
         const SizedBox(width: 20),
         InkWell(
           onTap: () {
             launch(AppConstants.twitter);
           },
-          child: AppIcon('icons/twitter.png'),
+          child: AppIcon('app_icons/twitter.png'),
         ),
         const SizedBox(width: 20),
         InkWell(
           onTap: () {
             launch(AppConstants.facebook);
           },
-          child: AppIcon('icons/facebook.png'),
+          child: AppIcon('app_icons/facebook.png'),
         ),
       ];
 }

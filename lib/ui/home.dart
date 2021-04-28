@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:railway_admin/ui/responsive_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../utils/colors_file.dart';
+import '../utils/colors_file.dart';
 import 'about.dart';
 import 'signin.dart';
 import 'footer.dart';
@@ -144,6 +146,7 @@ class _HomeState extends State<Home> {
                       child: Image.asset(
                         'app_images/train.png',
                         fit: BoxFit.cover,
+                        color: whiteColor,
                         height: 20,
                         width: 20,
                       ),
@@ -252,7 +255,7 @@ class _HomeState extends State<Home> {
                 title: Text(
                   "Admin Area",
                   style: TextStyle(
-                    color: AppColors.yellow,
+                    color: whiteColor,
                     fontSize: 20,
                     fontWeight: FontWeight.w900,
                   ),

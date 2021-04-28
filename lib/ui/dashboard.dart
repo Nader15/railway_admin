@@ -6,7 +6,9 @@ import 'package:railway_admin/ui/tickets/tickets_screen.dart';
 import 'package:railway_admin/ui/trains/trains_screen.dart';
 import 'package:railway_admin/ui/trips/trips_screen.dart';
 import 'package:railway_admin/utils/colors_file.dart';
+import 'package:railway_admin/utils/dashboard_drawer.dart';
 
+import '../utils/colors_file.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -17,12 +19,7 @@ class _DashboardState extends State<Dashboard>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
 
-  List<Widget> Containers = [
-    Clients(),
-    Trips(),
-    Tickets(),
-    Trains()
-  ];
+  List<Widget> Containers = [Clients(), Trips(), Tickets(), Trains()];
 
   List myTabs = <Widget>[
     Tab(
@@ -49,6 +46,7 @@ class _DashboardState extends State<Dashboard>
   @override
   Widget build(BuildContext context) => ResponsiveWidget(
         desktopScreen: Scaffold(
+          drawer: CustomHomeDrawer(),
           backgroundColor: primaryAppColor,
           body: SingleChildScrollView(
             child: Padding(
@@ -56,12 +54,27 @@ class _DashboardState extends State<Dashboard>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Railway System",
-                    style: TextStyle(
-                        color: whiteColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Railway System",
+                        style: TextStyle(
+                            color: whiteColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                      Builder(
+                          builder: (ctx) => InkWell(
+                                onTap: () {
+                                  Scaffold.of(ctx).openDrawer();
+                                },
+                                child: Icon(
+                                  Icons.menu,
+                                  color: whiteColor,
+                                ),
+                              ))
+                    ],
                   ),
                   SizedBox(
                     height: 20,

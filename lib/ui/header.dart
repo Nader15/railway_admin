@@ -5,9 +5,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../config/constants.dart';
 import '../config/colors.dart';
+import '../utils/colors_file.dart';
 
 class Header extends StatelessWidget {
-  final String _name = "Railway Application";
+  final String _name = "Railway System";
   final String _description =
       "an application that enable travellers to make their trip more easy .";
 
@@ -64,7 +65,7 @@ class Header extends StatelessWidget {
                 Text(
                   _name,
                   style: TextStyle(
-                    color: AppColors.yellow,
+                    color: whiteColor,
                     fontSize: 40,
                     fontWeight: FontWeight.w900,
                   ),
