@@ -148,7 +148,7 @@ class _TicketsState extends State<Tickets> {
       leading: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Image.asset(
-          'images/ticketIcon.png',
+          'app_images/ticketIcon.png',
           height: 30,
         ),
       ),
