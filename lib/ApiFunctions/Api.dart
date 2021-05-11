@@ -257,14 +257,14 @@ class Api {
     print("dataContent1:: ${dataContent}");
     print("dataContent2:: ${response.body.toString()}");
 
-    if (!(response.body).toString().contains('errors')) {
-      CustomSnackBar(_scaffoldKey, context, dataContent["success"].toString());
-      // Future.delayed(Duration(seconds: 5), () {
-      //   navigateAndClearStack(context, Home());
-      // });
+    if (!(response.body).toString().contains('error')) {
+      CustomSnackBar(_scaffoldKey, context, dataContent.toString());
+      Future.delayed(Duration(seconds: 3), () {
+        navigateAndClearStack(context, SplashScreen());
+      });
       return TripsModel.fromJson(dataContent);
     } else {
-      CustomSnackBar(_scaffoldKey, context, dataContent["errors"].toString());
+      CustomSnackBar(_scaffoldKey, context, dataContent.toString());
       return false;
     }
   }
@@ -286,9 +286,11 @@ class Api {
     XsProgressHud.hide();
     if (response.statusCode == 200) {
       print("body :" + json.decode(response.body).toString());
-      Navigator.pop(context);
+      // Navigator.pop(context);
+      CustomSnackBar(_scaffoldKey, context,
+          json.decode(response.body).toString());
       Future.delayed(Duration(seconds: 3), () {
-        navigateAndClearStack(context, Home());
+        navigateAndClearStack(context, SplashScreen());
       });
       // CustomSnackBar(_scaffoldKey, context,
       //     json.decode(response.body)["success"].toString());

@@ -76,6 +76,8 @@ class _TripsState extends State<Trips> {
   TimeOfDay selectedTime = TimeOfDay.now();
 
   Future<void> _selectTimeDepart(BuildContext context) async {
+    // final TimeOfDay picked =
+    //     await showTimePicker(context: context, initialTime: selectedTime);
     final TimeOfDay picked =
         await showTimePicker(context: context, initialTime: selectedTime);
     if (picked != null)
@@ -121,7 +123,7 @@ class _TripsState extends State<Trips> {
                 itemCount: tripsList.length,
                 itemBuilder: (ctx, index) {
                   return TripsBody(
-                    success: tripsList[index],
+                    context,_scaffoldKey,tripsList[index]
                   );
                 },
               ),
@@ -430,142 +432,133 @@ class _TripsState extends State<Trips> {
   }
 }
 
-class TripsBody extends StatelessWidget {
-  final Success success;
-
-  TripsBody({Key key, this.success}) : super(key: key);
-
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                backgroundColor: Color(0xff1D1D1D),
-                title: Text(
-                  "Delete Trip ?",
-                  style: TextStyle(color: Colors.white),
-                ),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                actions: [
-                  FlatButton(
-                      onPressed: () {
-                        Api(context).deleteTripApi(_scaffoldKey, success.id);
-                      },
-                      child: Text(
-                        "delete",
-                      )),
-                  FlatButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                        "cancel",
-                      ))
-                ],
-                content: Container(
-                  height: MediaQuery.of(context).size.height * 0.15,
-                  child: Center(
+Widget TripsBody(BuildContext context,GlobalKey<ScaffoldState> _scaffoldKey,Success success){
+  return InkWell(
+    onTap: () {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              backgroundColor: Color(0xff1D1D1D),
+              title: Text(
+                "Delete Trip ?",
+                style: TextStyle(color: Colors.white),
+              ),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              actions: [
+                FlatButton(
+                    onPressed: () {
+                      Api(context).deleteTripApi(_scaffoldKey, success.id);
+                    },
                     child: Text(
-                      " Delete This Trip ?",
-                      style: TextStyle(
-                          fontFamily: 'custom_font', color: Colors.white),
-                    ),
+                      "delete",
+                    )),
+                FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      "cancel",
+                    ))
+              ],
+              content: Container(
+                height: MediaQuery.of(context).size.height * 0.15,
+                child: Center(
+                  child: Text(
+                    " Delete This Trip ?",
+                    style: TextStyle(
+                        fontFamily: 'custom_font', color: Colors.white),
                   ),
                 ),
-              );
-            });
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Container(
-          margin: EdgeInsets.only(top: 10),
-          height: 150,
-          child: Card(
-            elevation: 10,
-            color: primaryAppColor,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    success.baseStation.name,
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: whiteColor),
-                  ),
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                "Start Time",
-                                style: TextStyle(color: whiteColor),
-                              ),
-                              Text(
-                                success.departTime,
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    color: whiteColor),
-                              ),
-                            ],
-                          ),
-                          CircleAvatar(
-                            radius: 20,
-                            backgroundColor: primaryAppColor,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.asset(
-                                'app_images/train.png',
-                                color: whiteColor,
-                              ),
+              ),
+            );
+          });
+    },
+    child: Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        margin: EdgeInsets.only(top: 10),
+        height: 150,
+        child: Card(
+          elevation: 10,
+          color: primaryAppColor,
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  success.baseStation.name,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: whiteColor),
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              "Start Time",
+                              style: TextStyle(color: whiteColor),
+                            ),
+                            Text(
+                              success.departTime,
+                              style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: whiteColor),
+                            ),
+                          ],
+                        ),
+                        CircleAvatar(
+                          radius: 20,
+                          backgroundColor: primaryAppColor,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset(
+                              'app_images/train.png',
+                              color: whiteColor,
                             ),
                           ),
-                          Column(
-                            children: [
-                              Text("Arrival Time",
-                                  style: TextStyle(color: whiteColor)),
-                              Text(
-                                success.arrivalTime,
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    color: whiteColor),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                        ),
+                        Column(
+                          children: [
+                            Text("Arrival Time",
+                                style: TextStyle(color: whiteColor)),
+                            Text(
+                              success.arrivalTime,
+                              style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: whiteColor),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  Text(
-                    success.destinationStation.name,
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: whiteColor),
-                  ),
-                ],
-              ),
+                ),
+                Text(
+                  success.destinationStation.name,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: whiteColor),
+                ),
+              ],
             ),
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
 }
