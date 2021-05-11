@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:railway_admin/ui/dashboard.dart';
 import 'package:railway_admin/ui/splash.dart';
+import 'package:railway_admin/ui/web_map/map_ui.dart';
 
 import 'ui/home.dart';
 import 'config/colors.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       ),
       // home: Home(),
       home: SplashScreen(),
+      // home: TrainTracking(),
       // home: TrainTracking(),
     );
   }

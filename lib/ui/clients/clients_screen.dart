@@ -484,51 +484,51 @@ class _ClientsState extends State<Clients> {
     );
   }
 
-  Widget Users() {
-    return ListTile(
-      contentPadding: EdgeInsets.only(left: 20, top: 5),
-      leading: CircleAvatar(
-        radius: 20,
-        backgroundColor: primaryAppColor,
-        backgroundImage: AssetImage(
-          'images/profileImage.jpg',
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-        ),
-      ),
-      title: Text("Mohamed " "Ahmed"),
-      subtitle: Text("mohamed.ahmed@gmail.com"),
-      trailing: IconButton(
-          onPressed: () {},
-          icon: Container(
-            alignment: Alignment.center,
-            width: 350,
-            height: 30,
-            child: DropdownButton(
-              icon: Icon(Icons.linear_scale_rounded, color: blackColor),
-              isExpanded: true,
-              underline: SizedBox(),
-              dropdownColor: whiteColor,
-              style: TextStyle(color: blackColor),
-              value: value,
-              onChanged: (newValue) {
-                setState(() {
-                  value = newValue;
-                  value == "delete"
-                      ? Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Home()))
-                      : null;
-                });
-              },
-              items: items.map((valueItem) {
-                return DropdownMenuItem(
-                  value: valueItem,
-                  child: Text(valueItem),
-                );
-              }).toList(),
-            ),
-          )),
-    );
-  }
+  // Widget Users() {
+  //   return ListTile(
+  //     contentPadding: EdgeInsets.only(left: 20, top: 5),
+  //     leading: CircleAvatar(
+  //       radius: 20,
+  //       backgroundColor: primaryAppColor,
+  //       backgroundImage: AssetImage(
+  //         'images/profileImage.jpg',
+  //       ),
+  //       child: Padding(
+  //         padding: const EdgeInsets.all(8.0),
+  //       ),
+  //     ),
+  //     title: Text("Mohamed " "Ahmed"),
+  //     subtitle: Text("mohamed.ahmed@gmail.com"),
+  //     trailing: IconButton(
+  //         onPressed: () {},
+  //         icon: Container(
+  //           alignment: Alignment.center,
+  //           width: 350,
+  //           height: 30,
+  //           child: DropdownButton(
+  //             icon: Icon(Icons.linear_scale_rounded, color: blackColor),
+  //             isExpanded: true,
+  //             underline: SizedBox(),
+  //             dropdownColor: whiteColor,
+  //             style: TextStyle(color: blackColor),
+  //             value: value,
+  //             onChanged: (newValue) {
+  //               setState(() {
+  //                 value = newValue;
+  //                 value == "delete"
+  //                     ? Navigator.push(context,
+  //                         MaterialPageRoute(builder: (context) => Home()))
+  //                     : null;
+  //               });
+  //             },
+  //             items: items.map((valueItem) {
+  //               return DropdownMenuItem(
+  //                 value: valueItem,
+  //                 child: Text(valueItem),
+  //               );
+  //             }).toList(),
+  //           ),
+  //         )),
+  //   );
+  // }
 }

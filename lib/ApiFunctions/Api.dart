@@ -9,6 +9,7 @@ import 'package:railway_admin/models/trains_model.dart';
 import 'package:railway_admin/models/trips.dart';
 import 'package:railway_admin/models/users.dart';
 import 'package:railway_admin/ui/home.dart';
+import 'package:railway_admin/ui/splash.dart';
 import 'package:railway_admin/utils/custom_snackBar.dart';
 import 'package:railway_admin/utils/global_vars.dart';
 import 'package:railway_admin/utils/navigator.dart';
@@ -176,11 +177,16 @@ class Api {
     print("dataContent2:: ${response.body.toString().contains('errors')}");
 
     if (!(response.body).toString().contains('errors')) {
+      CustomSnackBar(
+          _scaffoldKey, context, "Account Created Successfully");
+      Future.delayed(Duration(seconds: 3), () {
+        navigateAndClearStack(context, SplashScreen());
+      });
       return UsersModel.fromJson(dataContent);
       print(json.decode(response.body));
     } else {
       CustomSnackBar(
-          _scaffoldKey, context, dataContent["errors"]["email"].toString());
+          _scaffoldKey, context, dataContent["errors"].toString());
       return false;
     }
   }
@@ -414,17 +420,22 @@ class Api {
     final response = await http.post(
       apiUrl,
       headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
         HttpHeaders.authorizationHeader: UserTocken
       },
-      body: data,
+      body: userToJson,
     );
     Map<String, dynamic> dataContent = json.decode(response.body);
     XsProgressHud.hide();
     if (response.statusCode == 200) {
-      Navigator.pop(context);
+      // Navigator.pop(context);
       CustomSnackBar(_scaffoldKey, context,
-          json.decode(response.body));
-      print(dataContent.toString());
+          response.body.toString());
+      print(response.body.toString());
+      Future.delayed(Duration(seconds: 3), () {
+        navigateAndClearStack(context, SplashScreen());
+      });
       return true;
     } else {
       CustomSnackBar(_scaffoldKey, context,
